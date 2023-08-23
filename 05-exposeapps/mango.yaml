@@ -1,0 +1,26 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mango-app
+  namespace: ingress-nginx
+  labels:
+    app: mango
+spec: 
+  containers: 
+  - name: mango-app
+    image: hashicorp/http-echo
+    args: 
+      - "-text=This is mango"  
+
+--- 
+kind: Service
+apiVersion: v1
+metadata:
+  name: mango-service
+  namespace: ingress-nginx
+spec: 
+  selector:
+    app: mango
+  ports:
+  - port: 5678

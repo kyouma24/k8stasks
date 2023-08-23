@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-zone
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx1 
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: nginx2
+              zone: us-east-1a  
+

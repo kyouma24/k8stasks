@@ -1,0 +1,26 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: apple-app
+  namespace: ingress-nginx
+  labels:
+    app: apple
+spec: 
+  containers: 
+  - name: apple-app
+    image: hashicorp/http-echo
+    args: 
+      - "-text=This is apple"  
+
+--- 
+kind: Service
+apiVersion: v1
+metadata:
+  name: apple-service
+  namespace: ingress-nginx
+spec: 
+  selector:
+    app: apple
+  ports:
+  - port: 5678

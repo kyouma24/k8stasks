@@ -1,0 +1,53 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  namespace: ingress-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/enable-access-log: "true"
+    nginx.ingress.kubernetes.io/access-log-visibility: "public"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    service.beta.kubernetes.io/aws-load-balancer-logs-retention-period: "7"
+    service.beta.kubernetes.io/aws-load-balancer-logs-prefix: "nginx-ingress"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /dev/api1
+        pathType: Prefix
+        backend:
+          service:
+            name: apple-service
+            port:
+              number: 5678
+  - http:
+      paths:
+      - path: /dev/api2
+        pathType: Prefix
+        backend:
+          service:
+            name: banana-service
+            port:
+              number: 5678
+  - http:
+      paths:
+      - path: /prod/api1
+        pathType: Prefix
+        backend:
+          service:
+            name: watermelon-service
+            port:
+              number: 5678
+  - http:
+      paths:
+      - path: /prod/api2
+        pathType: Prefix
+        backend:
+          service:
+            name: mango-service
+            port:
+              number: 5678

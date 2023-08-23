@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx1-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx1
+  template:
+    metadata:
+      labels:
+        app: nginx1
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - nginx1
+              topologyKey: "kubernetes.io/zone"
+      containers:
+        - name: nginx1
+          image: nginx
+      # nodeSelector:
+      #   topology.kubernetes.io/zone: us-east-1a
+      # containers:
+      #   - name: nginx1
+      #     image: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx1-service
+spec:
+  selector:
+    app: nginx1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx2-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx2
+  template:
+    metadata:
+      labels:
+        app: nginx2
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - nginx2
+              topologyKey: "kubernetes.io/zone"
+      containers:
+        - name: nginx2
+          image: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx2-service
+spec:
+  selector:
+    app: nginx2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  

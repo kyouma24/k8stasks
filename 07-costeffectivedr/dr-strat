@@ -1,0 +1,10 @@
+Multi-AZ Deployment: Deploying our primary EKS cluster across multiple AZs within a region. This helps us to ensure high availability and fault tolerance for our applications.
+For Database Replication, we could use Amazon RDS and create read replicas of your database in one or more AZs within the same region. Each read replica will maintain a synchronized copy of the database's data.
+Data Replication and Backup: Implementing data replication and backup strategies S3 for object storage and for block storage, EBS. Taking incremental backups regularly and replicate data to the secondary region and maintain backups in glacier for cost optimization
+Application Load Balancing: Using ALB or NLB to distribute traffic across AZs and configuring the traffic to healthy instances in the region
+Route 53 Failover Routing: Using Route 53's failover routing feature we can automatically route traffic to the other AZ in case of a disaster. Using health checks, we can determine the availability of AZs.
+Implementing detailed cost allocation and monitoring using AWS Cost Explorer, AWS Budgets, and AWS Cost and Usage Reports. This helps identify cost inefficiencies and opportunities for optimization.
+Implementing a scheduled downscaling approach for non-production workloads during off-peak hours. This reduces resource our costs and consumption of the resources
+When we have predictable workloads/resource consumption requirement, we should consider utilizing Reserved Instances to reduce compute costs for on-demand instances. And also leveraging Spot instances when doing workloads that are okay to be interrupted.
+
+By implementing in the above stated way, we can maintain high availability, failover capabilities with a cost-effective DR strategy in our EKS cluster

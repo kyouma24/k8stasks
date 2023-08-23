@@ -1,0 +1,26 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: watermelon-app
+  namespace: ingress-nginx
+  labels:
+    app: watermelon
+spec: 
+  containers: 
+  - name: watermelon-app
+    image: hashicorp/http-echo
+    args: 
+      - "-text=This is watermelon"  
+
+--- 
+kind: Service
+apiVersion: v1
+metadata:
+  name: watermelon-service
+  namespace: ingress-nginx
+spec: 
+  selector:
+    app: watermelon
+  ports:
+  - port: 5678
